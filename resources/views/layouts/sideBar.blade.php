@@ -23,11 +23,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{url('/buku')}}" class="nav-link">
               <i class="fa fa-book"></i>
               <p>
                 Buku
-                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
@@ -36,7 +35,6 @@
               <i class="fa fa-book"></i>
               <p>
                 Peminjaman
-                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
@@ -45,16 +43,14 @@
               <i class="fa fa-book"></i>
               <p>
                 Penjualan
-                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{url('/user')}}" class="nav-link">
               <i class="fa fa-book"></i>
               <p>
                 Anggota
-                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
