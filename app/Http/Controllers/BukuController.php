@@ -65,7 +65,7 @@ class BukuController extends Controller
      */
     public function edit(Buku $buku)
     {
-        //
+        return view('buku.form', compact('buku'));
     }
 
     /**
@@ -75,9 +75,23 @@ class BukuController extends Controller
      * @param  \App\Models\Buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Buku $buku)
+    public function update(BukuRequest $request, Buku $buku)
     {
-        //
+        $buku->judul = $request->judul;
+        $buku->author = $request->author;
+        $buku->genre = $request->genre;
+        $buku->gambar = $request->gambar;
+        $buku->harga = $request->harga;
+        if ($request->jumlah_halaman !== null) {
+            $buku->jumlah_halaman = $request->jumlah_halaman;
+        }
+        $buku->jumlah_buku = $request->jumlah_buku;
+        $buku->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Update data successfully'
+        ]);
     }
 
     /**
@@ -88,6 +102,10 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
-        //
+        $buku->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Delete data successfully'
+        ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Buku;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -23,7 +24,17 @@ class BukusDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'bukus.action')
+            ->addColumn('action', function($row){
+                $action = '';
+                if(Gate::allows('update buku')){
+                }
+                $action = '<button type="button" data-id='.$row->id.' data-jenis="edit" class="btn btn-primary btn-xs action" action=""><i class="fa fa-edit"></i></button>';
+                $action .= ' <button type="button" data-id='.$row->id.' data-jenis="delete" class="btn btn-danger btn-xs action" action=""><i class="fa fa-trash"></i></button>';
+
+                if(Gate::allows('delete buku')){
+                }
+                return $action;
+            })
             ->addIndexColumn()
             ->setRowId('id');
     }

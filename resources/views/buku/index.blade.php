@@ -68,6 +68,7 @@
      <script src="{{ asset('lte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{ asset('lte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{ asset('lte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{ $dataTable->scripts() }}
     <script>
         $('.btn-add').on('click', function(){
@@ -99,8 +100,8 @@
                     processData: false,
                     contentType: false,
                     success: function(res){
-                        $('#modalAction').modal('hide')
                         window.LaravelDataTables["bukus-table"].ajax.reload()
+                        $('#modalAction').modal('hide')
                     }
                     // error: function(res){
                     //     let errors = res.responseJSON?.errors
@@ -114,5 +115,51 @@
                 })
             })
         }
+
+        $('#bukus-table').on('click', '.action', function(){
+            let data = $(this).data()
+            let id = data.id
+            let jenis = data.jenis
+
+            if(jenis == 'delete'){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'DELETE',
+                            url: `{{ url('buku/') }}/${id}`,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(res){
+                                window.LaravelDataTables["bukus-table"].ajax.reload()
+                                Swal.fire(
+                                    'Deleted!',
+                                    res.message,
+                                    res.status
+                                )
+                            }
+                        })
+                    }
+                })
+            }else{
+                $.ajax({
+                    method: 'get',
+                    url: `{{ url('buku/') }}/${id}/edit`,
+                    success: function(res){
+                        $('#modalAction').find('.modal-dialog').html(res)
+                        $('#modalAction').modal('show')
+                        store()
+                    }
+                })
+            }
+        })
     </script>
 @endpush

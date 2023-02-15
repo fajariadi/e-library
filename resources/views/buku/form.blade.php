@@ -6,22 +6,24 @@
         </button>
     </div>
     <div class="modal-body">
-        <form id="form-action" action="{{ route('buku.store') }}" method="post">
+        <form id="form-action" action="{{ $buku->id ? route('buku.update', $buku->id) : route('buku.store') }}" method="post">
             @csrf
-            {{-- @method('post') --}}
+            @if ($buku->id)
+                @method('put')
+            @endif
             <div class="form-group">
                 <label for="judul">Judul Buku</label>
-                <input type="text" class="form-control" id="judul" placeholder="Judul Buku" name="judul">
+                <input type="text" value="{{ $buku->judul }}" class="form-control" id="judul" placeholder="Judul Buku" name="judul">
             </div>
             <div class="form-group">
                 <label for="author">Author</label>
-                <input type="text" class="form-control" id="author" placeholder="Author" name="author">
+                <input type="text" value="{{ $buku->author }}" class="form-control" id="author" placeholder="Author" name="author">
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="author">Genre</label>
-                        <input type="text" class="form-control" id="genre" placeholder="Genre" name="genre">
+                        <input type="text" value="{{ $buku->genre }}" class="form-control" id="genre" placeholder="Genre" name="genre">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -29,7 +31,7 @@
                         <label for="gambar">Gambar</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="gambar" name="gambar">
+                                <input type="file" class="custom-file-input" id="gambar" value="{{ $buku->gambar }}" name="gambar">
                                 <label class="custom-file-label" for="gambar">Choose file</label>
                             </div>
                             <div class="input-group-append">
@@ -47,7 +49,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Rp</span>
                             </div>
-                            <input type="number" name="harga" class="form-control">
+                            <input type="number" name="harga" value="{{ $buku->harga }}" class="form-control">
                             <div class="input-group-append">
                                 <span class="input-group-text">.00</span>
                             </div>
@@ -57,13 +59,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="author">Jumlah Halaman</label>
-                        <input type="number" class="form-control" id="jumlah_halaman" placeholder="Jumlah Halaman" name="jumlah_halaman">
+                        <input type="number" class="form-control" value="{{ $buku->jumlah_halaman }}" id="jumlah_halaman" placeholder="Jumlah Halaman" name="jumlah_halaman">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="jumlah_buku">Jumlah Buku</label>
-                        <input type="number" class="form-control" id="jumlah_buku" placeholder="Jumlah Buku" name="jumlah_buku">
+                        <input type="number" class="form-control" id="jumlah_buku"  value="{{ $buku->jumlah_buku }}" placeholder="Jumlah Buku" name="jumlah_buku">
                     </div>
                 </div>
             </div>
