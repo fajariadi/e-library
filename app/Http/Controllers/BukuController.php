@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\DataTables\BukusDataTable;
+use App\Http\Requests\BukuRequest;
 use Illuminate\Http\Request;
 
 
@@ -26,7 +27,7 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        return view('buku.form', ['buku' => new Buku()]);
     }
 
     /**
@@ -35,9 +36,14 @@ class BukuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BukuRequest $request)
     {
-        //
+        Buku::create($request->all());
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Create Data successfully'
+        ]);
     }
 
     /**
