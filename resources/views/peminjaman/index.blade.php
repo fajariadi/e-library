@@ -21,7 +21,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Buku</li>
+              <li class="breadcrumb-item active">Peminjaman</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -36,10 +36,10 @@
             <div class="card-header">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h3 class="card-title">DAFTAR BUKU</h3>
+                        <h3 class="card-title">DAFTAR PEMINJAMAN</h3>
                     </div>
                     <div class="col-sm-6">
-                        <button type="button" class="float-sm-right btn btn-xs btn-primary btn-add"><i class="fa fa-plus"></i> Tambah Buku</button>
+                        <button type="button" class="float-sm-right btn btn-xs btn-primary btn-add"><i class="fa fa-plus"></i> Tambah Pinjaman</button>
                     </div>
                 </div>
             </div> 
@@ -77,7 +77,7 @@
         $('.btn-add').on('click', function(){
             $.ajax({
                 method: 'get',
-                url: `{{ url('buku/create') }}`,
+                url: `{{ url('peminjaman/create') }}`,
                 success: function(res){
                     $('#modalAction').find('.modal-dialog').html(res)
                     $('#modalAction').modal('show')
@@ -103,7 +103,7 @@
                     processData: false,
                     contentType: false,
                     success: function(res){
-                        window.LaravelDataTables["bukus-table"].ajax.reload()
+                        window.LaravelDataTables["peminjaman-table"].ajax.reload()
                         $('#modalAction').modal('hide')
                         toastr.success(res.message)
                     },
@@ -140,7 +140,7 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
                             success: function(res){
-                                window.LaravelDataTables["bukus-table"].ajax.reload()
+                                window.LaravelDataTables["peminjaman-table"].ajax.reload()
                                 Swal.fire(
                                     'Deleted!',
                                     res.message,

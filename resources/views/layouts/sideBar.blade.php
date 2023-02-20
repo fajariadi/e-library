@@ -31,7 +31,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{url('/peminjaman')}}" class="nav-link">
               <i class="fa fa-book"></i>
               <p>
                 Peminjaman

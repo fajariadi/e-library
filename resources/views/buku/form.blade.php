@@ -6,7 +6,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <form id="form-action" action="{{ $buku->id ? route('buku.update', $buku->id) : route('buku.store') }}" method="post">
+        <form id="form-action" action="{{ $buku->id ? route('buku.update', $buku->id) : route('buku.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             @if ($buku->id)
                 @method('put')

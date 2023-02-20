@@ -6,7 +6,7 @@ use App\Models\Buku;
 use App\DataTables\BukusDataTable;
 use App\Http\Requests\BukuRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
@@ -38,7 +38,21 @@ class BukuController extends Controller
      */
     public function store(BukuRequest $request)
     {
-        Buku::create($request->all());
+        $buku = new Buku();
+        $buku->judul = $request->judul;
+        $buku->author = $request->author;
+        $buku->genre = $request->genre;
+        if ($request->hasFile('gambar')) {
+            $buku->gambar = $request->file('gambar')->getClientOriginalName();
+        }
+        $buku->harga = $request->harga;
+        $buku->jumlah_halaman = $request->jumlah_halaman;
+        $buku->jumlah_buku = $request->jumlah_buku;
+
+        if($buku->save()){
+            $photo = $request->file('gambar');
+            $photo->storeAs('sampul', $photo->getClientOriginalName(), ['disk' => 'public']);
+        }
         
         return response()->json([
             'status' => 'success',
@@ -82,11 +96,12 @@ class BukuController extends Controller
         $buku->genre = $request->genre;
         $buku->gambar = $request->gambar;
         $buku->harga = $request->harga;
-        if ($request->jumlah_halaman !== null) {
-            $buku->jumlah_halaman = $request->jumlah_halaman;
-        }
+        $buku->jumlah_halaman = $request->jumlah_halaman;
         $buku->jumlah_buku = $request->jumlah_buku;
-        $buku->save();
+        if($buku->save()){
+            $photo = $request->file('gambar');
+            $photo->storeAs('sampul', $photo->getClientOriginalName(), ['disk' => 'public']);
+        }
 
         return response()->json([
             'status' => 'success',
@@ -102,6 +117,7 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
+        Storage::disk('public')->delete('sampul/'.$buku->gambar);
         $buku->delete();
         return response()->json([
             'status' => 'success',
